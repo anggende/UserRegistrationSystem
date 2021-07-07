@@ -1,7 +1,8 @@
 package com.ibm.delacruz.UserRegistrationSystem.bean;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.ibm.delacruz.UserRegistrationSystem.domain.User;
 
@@ -12,7 +13,7 @@ public class UserBean {
 	private String username;
 	private String email;
 	private String password;
-	private LocalDate birthday;
+	private Date birthday;
 	public Long getId() {
 		return id;
 	}
@@ -49,12 +50,13 @@ public class UserBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public LocalDate getBirthday() {
+	public Date getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(String birthday) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		this.birthday = LocalDate.parse(birthday,formatter);
+	public void setBirthday(String birthday) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date   date       = format.parse (birthday); 
+		this.birthday=date;
 	}
 	public User convertToUser() {
 		User user = new User();

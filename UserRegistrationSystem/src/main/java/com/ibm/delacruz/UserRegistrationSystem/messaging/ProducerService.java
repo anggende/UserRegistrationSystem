@@ -4,19 +4,21 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.Gson;
 import com.ibm.delacruz.UserRegistrationSystem.domain.User;
 
 @Service
 public class ProducerService {
-	private final KafkaTemplate<String,User> kafkaTemplate;
-	private final static String TOPIC = "user_events";
+	private final KafkaTemplate<String,String> kafkaTemplate;
+	private final static String TOPIC = "userevents";
 	
-	public ProducerService(KafkaTemplate<String,User> kafkaTemplate) {
+	public ProducerService(KafkaTemplate<String,String> kafkaTemplate) {
 		this.kafkaTemplate=kafkaTemplate;
 	}
 	
 	public void sendMessage(User user) throws JsonProcessingException {
-		kafkaTemplate.send(TOPIC,user); 
+		String userJson = new Gson().toJson(user);
+		kafkaTemplate.send(TOPIC, userJson);
 	}
-	
+
 }

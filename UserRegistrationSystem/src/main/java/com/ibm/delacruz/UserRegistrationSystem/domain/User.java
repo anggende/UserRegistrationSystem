@@ -1,6 +1,6 @@
 package com.ibm.delacruz.UserRegistrationSystem.domain;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +15,7 @@ public class User {
 	private String username;
 	private String email;
 	private String password;
-	private LocalDate birthday;
+	private Date birthday;
 	public Long getId() {
 		return id;
 	}
@@ -52,10 +52,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public LocalDate getBirthday() {
+	public Date getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(LocalDate birthday) {
+	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 	@Override

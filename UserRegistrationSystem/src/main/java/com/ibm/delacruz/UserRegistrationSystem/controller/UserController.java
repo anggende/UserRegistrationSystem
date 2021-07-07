@@ -10,16 +10,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ibm.delacruz.UserRegistrationSystem.bean.UserBean;
 import com.ibm.delacruz.UserRegistrationSystem.domain.User;
+import com.ibm.delacruz.UserRegistrationSystem.messaging.ProducerService;
 import com.ibm.delacruz.UserRegistrationSystem.service.UserService;
 @RestController
 public class UserController {
-	@Autowired
+
 	private UserService userService;
+	private ProducerService producerService;
 	
+	@Autowired
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	@Autowired
+	public void setProducerService(ProducerService producerService) {
+		this.producerService = producerService;
+	}
+
 	@PostMapping(value="/user/add",consumes="application/json",produces="application/json")
 	public String addUser(@RequestBody UserBean userBean) {
+		try {
+			producerService.sendMessage(userBean.convertToUser());
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 		return userService.addUser(userBean.convertToUser());
 	}
 	

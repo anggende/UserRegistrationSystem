@@ -13,7 +13,7 @@ public class UserBean {
 	private String username;
 	private String email;
 	private String password;
-	private Date birthday;
+	private String birthday;
 	public Long getId() {
 		return id;
 	}
@@ -50,13 +50,11 @@ public class UserBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 	public void setBirthday(String birthday) throws ParseException {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date   date       = format.parse (birthday); 
-		this.birthday=date;
+		this.birthday=birthday;
 	}
 	public User convertToUser() {
 		User user = new User();

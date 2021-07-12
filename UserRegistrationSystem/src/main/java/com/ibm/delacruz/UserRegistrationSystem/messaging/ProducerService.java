@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import com.ibm.delacruz.UserRegistrationSystem.domain.User;
+import com.ibm.delacruz.UserRegistrationSystem.domain.UserWrapper;
 
 @Service
 public class ProducerService {
@@ -16,9 +17,13 @@ public class ProducerService {
 		this.kafkaTemplate=kafkaTemplate;
 	}
 	
+	public void sendMessage(UserWrapper userWrapper) throws JsonProcessingException {
+		String userJson = new Gson().toJson(userWrapper);
+		kafkaTemplate.send(TOPIC, userJson);
+	}
+
 	public void sendMessage(User user) throws JsonProcessingException {
 		String userJson = new Gson().toJson(user);
 		kafkaTemplate.send(TOPIC, userJson);
 	}
-
 }

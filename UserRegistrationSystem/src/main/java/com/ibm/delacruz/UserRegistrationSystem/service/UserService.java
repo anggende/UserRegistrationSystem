@@ -11,14 +11,12 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	public String addUser(User user) {
+	public void addUser(User user) {
 		repository.save(user);
-		return "saved user";
 	}
 	
-	public String deleteUser(Long id) {
+	public void deleteUser(Long id) {
 		repository.deleteById(id);
-		return "deleted user";
 	}
 	
 	public User findById(Long id) {
@@ -29,17 +27,9 @@ public class UserService {
 		return repository.findByEmail(email).orElse(null);
 	}
 	
-	public String updateUser(Long id,User user) {
+	public String updateUser(Long id, User user) {
 		if (repository.findById(id).isPresent()) {
-			User updatedUser = new User();
-			updatedUser.setId(id);
-			updatedUser.setFirstName(user.getFirstName());
-			updatedUser.setLastName(user.getLastName());
-			updatedUser.setUsername(user.getUsername());
-			updatedUser.setEmail(user.getEmail());
-			updatedUser.setPassword(user.getPassword());
-			updatedUser.setBirthday(user.getBirthday());
-			repository.save(updatedUser);
+			repository.save(user);
 			return "successfully updated user";
 		}
 		return "update failed";

@@ -41,21 +41,23 @@ public class UserController {
 	@PostMapping(value="/user/add",consumes="application/json",produces="application/json")
 	public String addUser(@RequestBody UserBean userBean) {
 		try {
-			producerService.sendMessage(userWrapperService.createUser(userBean.convertToUser()));
+			User user = userService.addUser(userBean.convertToUser());
+			producerService.sendMessage(userWrapperService.createUser(user));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
-		}
-		return userService.addUser(userBean.convertToUser());
+		} return "added user";
 	}
 	
 	@PutMapping(value="/user/update/{id}",consumes="application/json",produces="application/json")
 	public String updateUser(@PathVariable("id") Long id,@RequestBody User user) {
 		try {
-			producerService.sendMessage(userWrapperService.updateUser(user,id));
+			user.setId(id);
+			userService.updateUser(id, user);
+			producerService.sendMessage(userWrapperService.updateUser(user));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		return userService.updateUser(id, user);
+		return "updated user";
 	}
 	
 	@GetMapping(value="/user/{id}")
@@ -71,10 +73,11 @@ public class UserController {
 	@DeleteMapping(value="/user/delete/{id}")
 	public String deleteUser(@PathVariable("id") Long id) {
 		try {
-			producerService.sendMessage(userWrapperService.deleteUser(userService.findById(id),id));
+			userService.deleteUser(id);
+			producerService.sendMessage(userWrapperService.deleteUser(userService.findById(id)));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		return userService.deleteUser(id);
+		return "deleted user";
 	}
 }

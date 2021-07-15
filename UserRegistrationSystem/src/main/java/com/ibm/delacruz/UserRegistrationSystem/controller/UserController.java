@@ -41,8 +41,8 @@ public class UserController {
 	@PostMapping(value="/user/add",consumes="application/json",produces="application/json")
 	public String addUser(@RequestBody UserBean userBean) {
 		try {
-			userService.addUser(userBean.convertToUser());
-			producerService.sendMessage(userWrapperService.createUser(userBean.convertToUser()));
+			User user = userService.addUser(userBean.convertToUser());
+			producerService.sendMessage(userWrapperService.createUser(user));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		} return "added user";

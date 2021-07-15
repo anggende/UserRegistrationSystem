@@ -11,8 +11,8 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	public void addUser(User user) {
-		repository.save(user);
+	public User addUser(User user) {
+		return repository.save(user);
 	}
 	
 	public void deleteUser(Long id) {
